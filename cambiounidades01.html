@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cambio de Unidades</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        input {
+            padding: 10px;
+            margin: 5px;
+            font-size: 1.2em;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+        #steps {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cambio de Unidades - Factores de Conversión</h1>
+    
+    <div>
+        <label for="quantity">Cantidad Inicial:</label>
+        <input type="number" id="quantity" placeholder="Ej: 3.5">
+    </div>
+    
+    <div>
+        <label for="initialUnit">Unidad Inicial:</label>
+        <input type="text" id="initialUnit" placeholder="Ej: km">
+    </div>
+    
+    <div>
+        <label for="finalUnit">Unidad Final:</label>
+        <input type="text" id="finalUnit" placeholder="Ej: m">
+    </div>
+    
+    <div>
+        <button onclick="startConversion()">Comenzar Conversión</button>
+        <button onclick="previousStep()">Retroceder</button>
+        <button onclick="nextStep()">Avanzar</button>
+        <button onclick="reset()">Reiniciar</button>
+        <button onclick="play()">Play</button>
+        <button onclick="pause()">Pausa</button>
+    </div>
+    
+    <div id="steps">
+        <p id="step1"></p>
+        <p id="step2"></p>
+        <p id="step3"></p>
+        <p id="step4"></p>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        let step = 0;
+        let stepsData = [];
+        let interval;
+
+        function startConversion() {
+            let quantity = parseFloat(document.getElementById("quantity").value);
+            let initialUnit = document.getElementById("initialUnit").value;
+            let finalUnit = document.getElementById("finalUnit").value;
+
+            // Calcular los factores de conversión según los ejemplos
+            stepsData = [
+                `Paso 1: Escribimos ${quantity} ${initialUnit}.`,
+                `Paso 2: Usamos el factor de conversión entre ${initialUnit} y ${finalUnit}.`,
+                `Paso 3: Multiplicamos por el factor de conversión.`,
+                `Paso 4: Simplificamos y obtenemos el resultado final en ${finalUnit}.`
+            ];
+
+            showStep();
+        }
+
+        function showStep() {
+            document.getElementById("step1").innerText = stepsData[0];
+            document.getElementById("step2").innerText = stepsData[1];
+            document.getElementById("step3").innerText = stepsData[2];
+            document.getElementById("step4").innerText = stepsData[3];
+            document.getElementById("result").innerText = "Resultado: (Pendiente de cálculo)";
+        }
+
+        function nextStep() {
+            if (step < stepsData.length) {
+                document.getElementById(`step${step + 1}`).style.visibility = "visible";
+                step++;
+            }
+        }
+
+        function previousStep() {
+            if (step > 0) {
+                step--;
+                document.getElementById(`step${step + 1}`).style.visibility = "hidden";
+            }
+        }
+
+        function reset() {
+            step = 0;
+            showStep();
+        }
+
+        function play() {
+            interval = setInterval(nextStep, 1000);
+        }
+
+        function pause() {
+            clearInterval(interval);
+        }
+    </script>
+</body>
+</html>
